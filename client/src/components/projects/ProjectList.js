@@ -1,15 +1,15 @@
-import React from 'react';
-import ProjectSummary from './ProjectSummary';
+import React from "react";
+import ProjectSummary from "./ProjectSummary";
 
-const ProjectList = () => {
+const ProjectList = ({ projects }) => {
   return (
-   <div className="project-list section">
-      <ProjectSummary />
-      <ProjectSummary />
-      <ProjectSummary /> 
-      <ProjectSummary />
+    <div className="project-list section">
+      {projects &&
+        projects.map(project => {
+          return <ProjectSummary key={project.id} project={project} />;
+        })}
     </div>
-  )
-}
+  );
+};
 
 export default ProjectList;

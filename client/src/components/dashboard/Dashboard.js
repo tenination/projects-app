@@ -8,6 +8,7 @@ import { compose } from 'redux';
 class Dashboard extends Component {
   render() {
     const { projects } = this.props;
+    console.log('the props are:', projects);
     return (
       <div className="dashboard container">
         <div className="row">

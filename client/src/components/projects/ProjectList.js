@@ -1,7 +1,8 @@
-import React from "react";
-import ProjectSummary from "./ProjectSummary";
+import React from 'react';
+import ProjectSummary from './ProjectSummary';
 
 const ProjectList = ({ projects }) => {
+  console.log('projects are:', projects);
   return (
     <div className="project-list section">
       {projects &&

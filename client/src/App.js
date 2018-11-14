@@ -4,12 +4,13 @@ import Navbar from './components/layout/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
 import ProjectDetails from './components/projects/ProjectDetails';
 import SignIn from './components/auth/SignIn';
-import SignUp from "./components/auth/SignUp";
-import CreateProject from "./components/projects/CreateProject";
+import SignUp from './components/auth/SignUp';
+import CreateProject from './components/projects/CreateProject';
 
-class App extends Component { 
+class App extends Component {
   render() {
-    return <BrowserRouter>
+    return (
+      <BrowserRouter>
         <div className="App">
           <Navbar />
           <Switch>
@@ -20,7 +21,8 @@ class App extends Component {
             <Route path="/create" component={CreateProject} />
           </Switch>
         </div>
-      </BrowserRouter>;
+      </BrowserRouter>
+    );
   }
 }
 

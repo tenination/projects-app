@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { signUp } from '../../store/actions/authActions';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -27,7 +28,7 @@ const ErrorMessageStyle = {
 };
 
 const SignUp = props => {
-  const { auth } = props;
+  const { auth, signUp, authError } = props;
   if (auth.uid) {
     return <Redirect to="/" />;
   }
@@ -38,10 +39,7 @@ const SignUp = props => {
         initialValues={{ email: '', password: '' }}
         validationSchema={SignupSchema}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          signUp(values);
         }}
       >
         {({ isSubmitting }) => (
@@ -92,6 +90,9 @@ const SignUp = props => {
           </Form>
         )}
       </Formik>
+      <div className="red-text center">
+        {authError ? <p>{authError}</p> : null}
+      </div>
     </div>
   );
 };
@@ -99,7 +100,17 @@ const SignUp = props => {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
+    authError: state.auth.authError,
   };
 };
 
-export default connect(mapStateToProps)(SignUp);
+const mapDispatchToProps = dispatch => {
+  return {
+    signUp: newUser => dispatch(signUp(newUser)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SignUp);

@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { signIn } from '../../store/actions/authActions';
+import { Redirect } from 'react-router-dom';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string()
@@ -16,7 +17,10 @@ const ErrorMessageStyle = {
 };
 
 const SignIn = props => {
-  const { authError } = props;
+  const { authError, auth } = props;
+  if (auth.uid) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className="container">
       <h5 className="grey-text text-darken-3">Sign In</h5>
@@ -67,6 +71,7 @@ const SignIn = props => {
 const mapStateToProps = state => {
   return {
     authError: state.auth.authError,
+    auth: state.firebase.auth,
   };
 };
 

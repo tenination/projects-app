@@ -1,24 +1,29 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { createProject } from "../../store/actions/projectActions";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { createProject } from '../../store/actions/projectActions';
+import { Redirect } from 'react-router-dom';
 
 const CreateProjectSchema = Yup.object().shape({
-  title: Yup.string().required("Required"),
-  content: Yup.string().required("Required")
+  title: Yup.string().required('Required'),
+  content: Yup.string().required('Required'),
 });
 
 const ErrorMessageStyle = {
-  color: "red"
+  color: 'red',
 };
 
 const CreateProject = props => {
+  const { auth } = props;
+  if (!auth.uid) {
+    return <Redirect to="/signin" />;
+  }
   return (
     <div className="container">
       <h5 className="grey-text text-darken-3">Create new project</h5>
       <Formik
-        initialValues={{ title: "", content: "" }}
+        initialValues={{ title: '', content: '' }}
         validationSchema={CreateProjectSchema}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -62,13 +67,19 @@ const CreateProject = props => {
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth,
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    createProject: project => dispatch(createProject(project))
+    createProject: project => dispatch(createProject(project)),
   };
 };
 
 export default connect(
-  null,
-  mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(CreateProject);

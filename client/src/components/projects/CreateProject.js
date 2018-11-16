@@ -26,11 +26,8 @@ const CreateProject = props => {
         initialValues={{ title: '', content: '' }}
         validationSchema={CreateProjectSchema}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            props.createProject(values);
-            setSubmitting(false);
-          }, 400);
+          props.createProject(values);
+          props.history.push('/');
         }}
       >
         {({ isSubmitting }) => (

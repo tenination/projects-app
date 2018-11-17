@@ -29,3 +29,19 @@ exports.projectCreated = functions.firestore
 
     return createNotification(notification);
   });
+
+exports.userJoined = functions.auth.user().onCreate(user => {
+  return admin
+    .firestore()
+    .collection('users')
+    .doc(user.uid)
+    .get()
+    .then(doc => {
+      const newUser = doc.data();
+      const notification = {
+        content: 'Signed up for the application',
+        user: `${newUser.firstJName} ${newUser.lastName}`,
+        time: admin.firestore.FieldValue.serverTimestamp(),
+      };
+    });
+});

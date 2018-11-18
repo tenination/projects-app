@@ -40,8 +40,10 @@ exports.userJoined = functions.auth.user().onCreate(user => {
       const newUser = doc.data();
       const notification = {
         content: 'Signed up for the application',
-        user: `${newUser.firstJName} ${newUser.lastName}`,
+        user: `${newUser.firstName} ${newUser.lastName}`,
         time: admin.firestore.FieldValue.serverTimestamp(),
       };
+
+      return createNotification(notification);
     });
 });
